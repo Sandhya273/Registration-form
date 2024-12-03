@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>HTML Form</title>
+    <style>
+        .error {
+            color: red;
+            font-size: 12px;
+        }
+    </style>
+</head>
+<body>
+
+    <center><h1>Registration Form</h1></center>
+    <form name="myform" id="registrationForm" action="#" method="post">
+        <table cellpadding="5" cellspacing="5" bgcolor="pink" align="center">
+            <tr>
+                <td>First Name:</td>
+                <td><input type="text" name="fname" id="fname"></td>
+            </tr>
+            <tr>
+                <td>Last Name:</td>
+                <td><input type="text" name="lname" id="lname"></td>
+            </tr>
+            <tr>
+                <td>Father Name:</td>
+                <td><input type="text" name="fathername" id="fathername"></td>
+            </tr>
+            <tr>
+                <td>Mother Name:</td>
+                <td><input type="text" name="mothername" id="mothername"></td>
+            </tr>
+            <tr>
+                <td>Email:</td>
+                <td><input type="text" name="email" id="email"></td>
+            </tr>
+            <tr>
+                <td>Password:</td>
+                <td><input type="password" name="password" id="password"></td>
+            </tr>
+            <tr>
+                <td>Confirm Password:</td>
+                <td><input type="password" name="confirmPassword" id="confirmPassword"></td>
+            </tr>
+            <tr>
+                <td>Gender:</td>
+                <td>
+                    <input type="radio" name="gender" value="Male" id="male"> Male
+                    <input type="radio" name="gender" value="Female" id="female"> Female
+                </td>
+            </tr>
+            <tr>
+                <td>Choose City:</td>
+                <td>
+                    <select name="city" id="city">
+                        <option value="">---Select---</option>
+                        <option value="Hyderabad">Hyderabad</option>
+                        <option value="Bangalore">Bangalore</option>
+                        <option value="Pune">Pune</option>
+                        <option value="Mumbai">Mumbai</option>
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>Address:</td>
+                <td><textarea name="address" id="address"></textarea></td>
+            </tr>
+            <tr>
+                <td></td>
+                <td><input type="submit" name="submit" value="Submit"></td>
+            </tr>
+        </table>
+    </form>
+
+    <div id="emailError" class="error"></div>
+    <div id="passwordError" class="error"></div>
+    <div id="confirmPasswordError" class="error"></div>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(event) 
+        {
+            event.preventDefault(); 
+
+            clearErrors();
+
+            let isValid = true;
+            const fname = document.getElementById('fname').value;
+            const lname = document.getElementById('lname').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const gender = document.querySelector('input[name="gender"]:checked');
+            const city = document.getElementById('city').value;
+            const address = document.getElementById('address').value;
+
+        
+            if (fname.trim() === "") {
+                isValid = false;
+                alert("First Name is required.");
+            }
+
+        
+            if (lname.trim() === "") 
+            {
+                isValid = false;
+                alert("Last Name is required.");
+            }
+
+    
+            const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,6}$/;
+            if (email.trim() === "") 
+            {
+                isValid = false;
+                document.getElementById('emailError').innerText = "Email is required.";
+            } 
+            else if (!emailPattern.test(email)) 
+            {
+                isValid = false;
+                document.getElementById('emailError').innerText = "Invalid email format. Please enter a valid email address.";
+            }
+
+            
+            if (password.trim() === "") 
+            {
+                isValid = false;
+                document.getElementById('passwordError').innerText = "Password is required.";
+            } 
+            else if (password.length < 6) 
+            {
+                isValid = false;
+                document.getElementById('passwordError').innerText = "Password must be at least 6 characters long.";
+            }
+
+        
+            if (confirmPassword.trim() === "") 
+            {
+                isValid = false;
+                document.getElementById('confirmPasswordError').innerText = "Confirm password is required.";
+            } 
+            else if (confirmPassword !== password) 
+            {
+                isValid = false;
+                document.getElementById('confirmPasswordError').innerText = "Passwords do not match.";
+            }
+
+            
+            if (!gender) {
+                isValid = false;
+                alert("Please select a gender.");
+            }
+
+            
+            if (city === "") 
+            {
+                isValid = false;
+                alert("Please select a city.");
+            }
+
+        
+            if (address.trim() === "") 
+            {
+                isValid = false;
+                alert("Address is required.");
+            }
+
+            
+            if (isValid) 
+            {
+                alert("Registration successful!");
+            }
+        });
+
+        
+        function clearErrors() 
+        {
+            const errorElements = document.querySelectorAll('.error');
+            errorElements.forEach(error => error.innerText = '');
+        }
+    </script>
+
+</body>
+</html>
