@@ -1,0 +1,12 @@
+body{
+    width:50%;
+    margin:auto;
+}
+form{
+    border:1px solid #978d8d;
+    border-radius:10px;
+    padding:10px;
+}
+h1{
+    margin: 30px 0;
+}
