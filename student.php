@@ -1,40 +1,61 @@
 <?php
-$host = "localhost";
-$user = "root";
-$pass = "";
-$dbname = "sform";
+class Student{
+    public $name;
+    public $age;
+    public $qualification;
+    public $email;
+    public $college;
+    public $address;
 
-$conn = mysqli_connect($host, $user, $pass);
+    public function name(){
+        echo "student name is Sandhya <br>";
 
+    }
+    public function age(){
+        echo "23 years old <br>";
+    }
+    public function qualification(){
+        echo "graduated <br>";
+    
+    }
+    public function email(){
+        echo "sandhyamadagoni02@gmail.com <br>";
+    
+    }
+    public function college(){
+        echo "JNTUH College of Engineering Manthani <br>";
+    }
+    public function attendance(){
+        echo "attendance is 90% <br>";
+    }
+    public function course(){
+        echo "Mechanical Engineering <br>";
+    }
+    public function rollnumber(){
+        echo "18VD1A0341 <br>";
 
-if (!$conn) {
-    die("Connection failed: " . mysqli_connect_error());
+    }
+    Public function marks(){
+        echo "65% <br>";
+
+    }
+    public function mobilenumber(){
+        echo "8790248811 <br>";
+    }
+    public function address(){
+        echo "Hyderabad <br>";
+    }
 }
-
-
-$sql = "CREATE DATABASE IF NOT EXISTS $dbname";
-if (mysqli_query($conn, $sql)) {
-    echo "Database checked/created successfully\n";
-} else {
-    echo "Error creating database: " . mysqli_error($conn);
-}
-
-
-mysqli_select_db($conn, $dbname);
-
-
-$table_sql = "CREATE TABLE IF NOT EXISTS student (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    first_name VARCHAR(50),
-    second_name VARCHAR(50),
-    status INT
-)";
-if (mysqli_query($conn, $table_sql)) {
-    echo "Table 'student' checked/created successfully\n";
-} else {
-    echo "Error creating table: " . mysqli_error($conn);
-}
-
-
-mysqli_close($conn);
+    
+$student=new student();
+$student->name();
+$student->age();
+$student->qualification();
+$student->email();
+$student->college();
+$student->rollnumber();
+$student->attendance();
+$student->marks();
+$student->mobilenumber();
+$student->address();
 ?>
