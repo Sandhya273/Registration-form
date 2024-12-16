@@ -28,16 +28,16 @@ class Student {
     public function get_performance($attendance,$marks){
         if($attendance>=70 && $marks>=50){
             if($attendance>=90 && $marks>=75){
-                echo "distinction";
+                echo "distinction <br>";
             }
             else{
-                echo "pass";
+                echo "pass <br>";
             }
             
             
         }
         else{
-            echo "fail";
+            echo "fail <br>";
         }
         
 
@@ -55,10 +55,10 @@ $name="sandhya";
         $age="23";
         $email="sandhyamadagoni@gmail.com";
         $student->add_details($name,$age,$email);
-//$student->get_details();
+$student->get_details();
 $attendance="90";
-        $marks="40";
-//$student->get_performance($attendance,$marks);
+        $marks="60";
+$student->get_performance($attendance,$marks);
 $degree="Mechanical Engineering";
 $year_of_graduation="2022";
 $student->get_graduation_status($degree,$year_of_graduation);
