@@ -5,13 +5,15 @@ class RegistrationForm {
     public $email;
     public $marks;
     public $errors = [];
+    public $db;
 
     
-    public function __construct($name, $age, $email, $marks) {
+    public function __construct($name, $age, $email, $marks, $db) {
         $this->name = $name;
         $this->age = $age;
         $this->email = $email;
         $this->marks = $marks;
+        $this->db = $db;
     }
 
     
@@ -21,7 +23,7 @@ class RegistrationForm {
         }
 
         if (empty($this->age)) {
-            $this->errors[] = "Age is required.";
+            $this->errors[] = "Age is required number.";
         }
 
         if (empty($this->email)) {
@@ -29,10 +31,11 @@ class RegistrationForm {
         }
 
         if (empty($this->marks)) {
-            $this->errors[] = "Marks are required.";
+            $this->errors[] = "Marks is required.";
         }
 
-        if (!empty($this->marks)) {
+        
+        if (empty($this->errors)) {
             if ($this->marks >= 90) {
                 echo "Grade: A <br>";
             } elseif ($this->marks >= 75) {
@@ -47,8 +50,17 @@ class RegistrationForm {
         return empty($this->errors); 
     }
 
+    
     public function save() {
-        return ['name' => $this->name,'age' => $this->age,'email' => $this->email,'marks' => $this->marks];
+        $stmt = $this->db->prepare("INSERT INTO student (name, age, email, marks) VALUES (?, ?, ?, ?)");
+        $stmt->bind_param("sisi", $this->name, $this->age, $this->email, $this->marks);
+
+        if ($stmt->execute()) {
+            return ['name' => $this->name, 'age' => $this->age, 'email' => $this->email, 'marks' => $this->marks];
+        } else {
+            $this->errors[] = "Error saving data to the database: " . $stmt->error;
+            return false;
+        }
     }
 
     
@@ -58,28 +70,30 @@ class RegistrationForm {
 }
 
 
+include "db.php";
+
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
     $name = isset($_POST['name']) ? $_POST['name'] : '';
     $age = isset($_POST['age']) ? $_POST['age'] : '';
     $email = isset($_POST['email']) ? $_POST['email'] : '';
     $marks = isset($_POST['marks']) ? $_POST['marks'] : '';
 
     
-    $form = new RegistrationForm($name, $age, $email, $marks);
+    $form = new RegistrationForm($name, $age, $email, $marks, $conn);
 
     
     if ($form->validate()) {
+        $userData = $form->save();
+        if ($userData) {
+            echo "Registration successful!<br>";
+            echo "Name: " . ($userData['name']) . "<br>";
+            echo "Age: " . ($userData['age']) . "<br>";
+            echo "Email: " . ($userData['email']) . "<br>";
+            echo "Marks: " . ($userData['marks']) . "<br>";
+        }
+    } else {
         
-        $UserData = $form->save();
-        echo "Registration successful!<br>";
-        echo "Name: " . $UserData['name'] . "<br>";
-        echo "Age: " . $UserData['age'] . "<br>";
-        echo "Email: " . $UserData['email'] . "<br>";
-        echo "Marks: " . $UserData['marks'] . "<br>";
-    } 
-    else {
-    
         $errors = $form->getErrors();
         foreach ($errors as $error) {
             echo "<p style='color:red;'>$error</p>";
